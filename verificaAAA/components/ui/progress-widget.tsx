@@ -197,14 +197,6 @@ export function ProgressWidget() {
           </div>
         </div>
       </Card>
-
-      <Image
-        src="/logounb.png"
-        alt="Logo da Universidade de Brasília - UnB, símbolo oficial da instituição"
-        width={60}
-        height={60}
-        className="object-contain"
-      />
     </div>
   )
 } 
