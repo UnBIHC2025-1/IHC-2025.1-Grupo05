@@ -5,7 +5,7 @@
 
 # next.js
 /.next/
-/out/
+# /out/  # Comentado para permitir deploy do gh-pages
 
 # production
 /build

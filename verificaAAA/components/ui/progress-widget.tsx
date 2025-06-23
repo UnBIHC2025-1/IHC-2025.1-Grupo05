@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import { Card } from "@/components/ui/card"
 import { CheckCircle2 } from "lucide-react"
+import Image from "next/image"
 
 // Total number of checkboxes in the project
 const TOTAL_CHECKBOXES = {
@@ -47,7 +48,13 @@ export function ProgressWidget() {
 
       // Get current page path
       const path = window.location.pathname
-      const currentPath = path.split('/').pop() || ''
+      const segments = path.split('/').filter(Boolean)
+      let currentPath = ''
+      if (segments.length > 1 && segments[0] === 'IHCGrupo05') {
+        currentPath = segments[1]
+      } else {
+        currentPath = segments[segments.length - 1] || ''
+      }
       const pageName = PAGE_NAMES[currentPath as keyof typeof PAGE_NAMES] || ''
       setCurrentPage(pageName)
 
@@ -190,6 +197,14 @@ export function ProgressWidget() {
           </div>
         </div>
       </Card>
+
+      <Image
+        src="/logounb.png"
+        alt="Logo da Universidade de Brasília - UnB, símbolo oficial da instituição"
+        width={60}
+        height={60}
+        className="object-contain"
+      />
     </div>
   )
 } 

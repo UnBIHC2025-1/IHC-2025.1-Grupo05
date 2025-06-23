@@ -175,15 +175,6 @@ export default function HomePage() {
       <footer className="mt-20 py-12 border-t backdrop-blur-sm text-slate-600 leading-3 border-teal-300 bg-cyan-400 opacity-100 rounded-none">
         <div className="container mx-auto px-4 text-slate-500 bg-cyan-400">
           <div className="text-center mb-8">
-            <div className="flex justify-center mb-4">
-              <Image
-                src="/logounb.png"
-                alt="Logo da Universidade de Brasília - UnB, símbolo oficial da instituição"
-                width={60}
-                height={60}
-                className="object-contain"
-              />
-            </div>
             <h3 className="text-lg font-semibold text-gray-800 mb-2">
               Universidade de Brasília - UnB
             </h3>
