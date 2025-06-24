@@ -283,63 +283,57 @@ export function exportAllChecklistsPDF() {
 
   checklists.forEach((cat, idx) => {
     y += 10;
-    doc.setFontSize(18);
+    // Categoria: cor e negrito
     const color = categoryColors[idx % categoryColors.length] as [number, number, number];
+    doc.setFontSize(18);
     doc.setTextColor(...color);
+    doc.setFont("helvetica", "bold");
     doc.text(cat.categoria, 15, y);
-    y += 4;
-    let rows: any[] = [];
+    y += 10;
     let currentSubtopic = "";
-    cat.itens.forEach((item) => {
+    let firstSubtopic = true;
+    let lastWasChecklist = false;
+    cat.itens.forEach((item, idx) => {
       if (typeof item === "string" && /^\n--- (.*) ---$/.test(item)) {
+        if (!firstSubtopic && lastWasChecklist) y += 7;
+        firstSubtopic = false;
         currentSubtopic = (item as string).replace(/^\n--- (.*) ---$/, "$1");
-        rows.push([{ content: "", styles: { cellPadding: 0, minCellHeight: 4, fillColor: [255,255,255], textColor: [255,255,255] } }]);
-        rows.push([
-          {
-            content: currentSubtopic,
-            styles: {
-              fontStyle: "bold",
-              fillColor: [240, 240, 240],
-              textColor: [60, 60, 60],
-              fontSize: 13,
-              cellPadding: { top: 2, bottom: 2, left: 2, right: 2 },
-            },
-          },
-        ]);
+        doc.setFontSize(13);
+        doc.setTextColor(...color);
+        doc.setFont("helvetica", "bold");
+        doc.text(currentSubtopic, 20, y);
+        lastWasChecklist = false;
       } else if (typeof item === "object" && item.id && item.text) {
         let checked = false;
         try {
           checked = localStorage.getItem(`checkbox-${item.id}`) === "true";
         } catch {}
         const status = checked ? "[x]" : "[ ]";
-        rows.push([
-          {
-            content: `${status} ${item.text}`,
-            styles: {
-              fontStyle: checked ? "bold" : "normal",
-              fontSize: 11,
-              cellPadding: { top: 1, bottom: 1, left: 4, right: 2 },
-              textColor: checked ? [39, 174, 96] : [40, 40, 40],
-            },
-          },
-        ]);
+        doc.setFontSize(11);
+        doc.setTextColor(40, 40, 40);
+        doc.setFont("helvetica", checked ? "bold" : "normal");
+        y += 7;
+        // Quebra o texto longo em múltiplas linhas
+        const maxWidth = 170; // largura máxima para o texto
+        const lines = doc.splitTextToSize(`${status} ${item.text}`, maxWidth);
+        doc.text(lines, 28, y);
+        y += 3.5 * (lines.length - 1); // avança para a última linha do bloco
+        y += 3.5; // espaçamento padrão entre checklists
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        lastWasChecklist = true;
+        // Se o próximo item é subtópico ou é o último, pule uma linha extra
+        const nextItem = cat.itens[idx + 1];
+        if (
+          typeof nextItem === "string" && /^\n--- (.*) ---$/.test(nextItem)
+          || idx === cat.itens.length - 1
+        ) {
+          y += 8;
+        }
       }
     });
-    autoTable(doc, {
-      startY: y,
-      body: rows,
-      theme: "plain",
-      styles: { font: "helvetica", fontSize: 11, textColor: [40, 40, 40] },
-      margin: { left: 15, right: 15 },
-      didDrawCell: (data) => {
-        if (data.cursor) y = data.cursor.y;
-      },
-    });
-    y += 6;
-    if (y > 250) {
-      doc.addPage();
-      y = 20;
-    }
   });
 
   doc.save("checklists-verificaAAA.pdf");
