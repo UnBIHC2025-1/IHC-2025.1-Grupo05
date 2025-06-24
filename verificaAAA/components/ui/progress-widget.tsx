@@ -8,9 +8,9 @@ import Image from "next/image"
 // Total number of checkboxes in the project
 const TOTAL_CHECKBOXES = {
   objetivos: 45,  // Total checkboxes in objetivos page
-  equipe: 35,     // Total checkboxes in equipe page
-  inovacao: 30,   // Total checkboxes in inovacao page
-  metodologia: 25 // Total checkboxes in metodologia page
+  equipe: 67,     // Total checkboxes em equipe page (corrigido)
+  inovacao: 34,   // Total checkboxes em inovacao page (corrigido)
+  metodologia: 41 // Total checkboxes em metodologia page (corrigido)
 }
 
 // Page name mapping
