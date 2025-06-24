@@ -5,6 +5,9 @@ import { BookOpen, Users, Target, BarChart3, Lightbulb, Award } from "lucide-rea
 import Link from "next/link"
 import Image from "next/image"
 import { exportAllChecklistsPDF } from "@/lib/checklists-data"
+import { useState } from "react"
+import ExportChecklistModal from "@/components/ui/ExportChecklistModal"
+import { exportChecklistsPDF, exportChecklistsTXT } from "@/lib/checklists-data"
 
 const sections = [
   {
@@ -52,6 +55,14 @@ const sections = [
 ]
 
 export default function HomePage() {
+  const [exportModalOpen, setExportModalOpen] = useState(false)
+
+  const handleExport = ({ projectName, description, selectedCategories }: { projectName: string; description: string; selectedCategories: string[] }) => {
+    exportChecklistsPDF({ projectName, description, selectedCategories })
+    // Se quiser permitir exportação TXT, descomente a linha abaixo:
+    // exportChecklistsTXT({ projectName, description, selectedCategories })
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
       {/* Hero Section */}
@@ -94,12 +105,18 @@ export default function HomePage() {
 
             {/* Botão de exportação de checklists */}
             <button
-              onClick={exportAllChecklistsPDF}
+              onClick={() => setExportModalOpen(true)}
               className="mt-8 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
               aria-label="Exportar todos os checklists em PDF"
             >
               Exportar Checklists (PDF)
             </button>
+
+            <ExportChecklistModal
+              open={exportModalOpen}
+              onClose={() => setExportModalOpen(false)}
+              onExport={handleExport}
+            />
 
             {/* Design rule indicators */}
             <div className="absolute -left-8 top-1/2 transform -translate-y-1/2 flex flex-col space-y-2">

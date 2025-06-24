@@ -337,4 +337,109 @@ export function exportAllChecklistsPDF() {
   });
 
   doc.save("checklists-verificaAAA.pdf");
+}
+
+export function exportChecklistsPDF({ projectName, description, selectedCategories }: {
+  projectName?: string;
+  description?: string;
+  selectedCategories: string[];
+}) {
+  const doc = new jsPDF();
+  const categoryColors = [
+    [41, 128, 185],   // Desenvolvimento Web - azul
+    [39, 174, 96],    // Geração de Conteúdo - verde
+    [241, 196, 15],   // Gestão de Projetos - amarelo
+    [142, 68, 173],   // Design - roxo
+  ];
+
+  let y = 20;
+  doc.setFontSize(22);
+  doc.setTextColor(30, 30, 30);
+  doc.text(projectName || "Checklists VerificaAAA", 105, y, { align: "center" });
+  y += 10;
+  doc.setFontSize(12);
+  doc.setTextColor(100, 100, 100);
+  doc.text(description || "Checklist prático para promover acessibilidade digital", 105, y, { align: "center" });
+  y += 10;
+
+  checklists.filter(cat => selectedCategories.includes(cat.categoria)).forEach((cat, idx) => {
+    y += 10;
+    const color = categoryColors[idx % categoryColors.length] as [number, number, number];
+    doc.setFontSize(18);
+    doc.setTextColor(...color);
+    doc.setFont("helvetica", "bold");
+    doc.text(cat.categoria, 15, y);
+    y += 10;
+    let currentSubtopic = "";
+    let firstSubtopic = true;
+    let lastWasChecklist = false;
+    cat.itens.forEach((item, idx) => {
+      if (typeof item === "string" && /^\n--- (.*) ---$/.test(item)) {
+        if (!firstSubtopic && lastWasChecklist) y += 7;
+        firstSubtopic = false;
+        currentSubtopic = (item as string).replace(/^\n--- (.*) ---$/, "$1");
+        doc.setFontSize(13);
+        doc.setTextColor(...color);
+        doc.setFont("helvetica", "bold");
+        doc.text(currentSubtopic, 20, y);
+        lastWasChecklist = false;
+      } else if (typeof item === "object" && item.id && item.text) {
+        let checked = false;
+        try {
+          checked = localStorage.getItem(`checkbox-${item.id}`) === "true";
+        } catch {}
+        const status = checked ? "[x]" : "[ ]";
+        doc.setFontSize(11);
+        doc.setTextColor(40, 40, 40);
+        doc.setFont("helvetica", checked ? "bold" : "normal");
+        y += 7;
+        const maxWidth = 170;
+        const lines = doc.splitTextToSize(`${status} ${item.text}`, maxWidth);
+        doc.text(lines, 28, y);
+        y += 3.5 * (lines.length - 1);
+        y += 3.5;
+        if (y > 270) {
+          doc.addPage();
+          y = 20;
+        }
+        lastWasChecklist = true;
+        const nextItem = cat.itens[idx + 1];
+        if (
+          typeof nextItem === "string" && /^\n--- (.*) ---$/.test(nextItem)
+          || idx === cat.itens.length - 1
+        ) {
+          y += 8;
+        }
+      }
+    });
+  });
+
+  doc.save((projectName ? projectName.replace(/\s+/g, "-") : "checklists-verificaAAA") + ".pdf");
+}
+
+export function exportChecklistsTXT({ projectName, description, selectedCategories }: {
+  projectName?: string;
+  description?: string;
+  selectedCategories: string[];
+}) {
+  let txt = "";
+  if (projectName) txt += `Projeto: ${projectName}\n`;
+  if (description) txt += `Descrição: ${description}\n`;
+  if (projectName || description) txt += "\n";
+  checklists.filter(({ categoria }) => selectedCategories.includes(categoria)).forEach(({ categoria, itens }) => {
+    txt += `Categoria: ${categoria}\n`;
+    itens.forEach((item, idx) => {
+      txt += `- ${typeof item === "object" ? item.text : item}\n`;
+    });
+    txt += "\n";
+  });
+  const blob = new Blob([txt], { type: "text/plain" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = (projectName ? projectName.replace(/\s+/g, "-") : "checklists-verificaAAA") + ".txt";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 } 
