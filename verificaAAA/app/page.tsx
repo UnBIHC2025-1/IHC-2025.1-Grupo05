@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { BookOpen, Users, Target, BarChart3, Lightbulb, Award } from "lucide-react"
 import Link from "next/link"
 import Image from "next/image"
-import { exportAllChecklists } from "@/lib/checklists-data"
+import { exportAllChecklistsPDF } from "@/lib/checklists-data"
 
 const sections = [
   {
@@ -94,11 +94,11 @@ export default function HomePage() {
 
             {/* Botão de exportação de checklists */}
             <button
-              onClick={exportAllChecklists}
+              onClick={exportAllChecklistsPDF}
               className="mt-8 px-6 py-3 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-400 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-cyan-500 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2"
-              aria-label="Exportar todos os checklists"
+              aria-label="Exportar todos os checklists em PDF"
             >
-              Exportar Checklists
+              Exportar Checklists (PDF)
             </button>
 
             {/* Design rule indicators */}
