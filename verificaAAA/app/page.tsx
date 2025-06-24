@@ -57,8 +57,8 @@ const sections = [
 export default function HomePage() {
   const [exportModalOpen, setExportModalOpen] = useState(false)
 
-  const handleExport = ({ projectName, description, selectedCategories }: { projectName: string; description: string; selectedCategories: string[] }) => {
-    exportChecklistsPDF({ projectName, description, selectedCategories })
+  const handleExport = ({ projectName, description, selectedCategories, includeAnalysis }: { projectName: string; description: string; selectedCategories: string[]; includeAnalysis: boolean }) => {
+    exportChecklistsPDF({ projectName, description, selectedCategories, includeAnalysis, projectUrl: "" })
     // Se quiser permitir exportação TXT, descomente a linha abaixo:
     // exportChecklistsTXT({ projectName, description, selectedCategories })
   }

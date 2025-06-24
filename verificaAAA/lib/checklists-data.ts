@@ -339,10 +339,12 @@ export function exportAllChecklistsPDF() {
   doc.save("checklists-verificaAAA.pdf");
 }
 
-export function exportChecklistsPDF({ projectName, description, selectedCategories }: {
+export function exportChecklistsPDF({ projectName, description, selectedCategories, projectUrl, includeAnalysis }: {
   projectName?: string;
   description?: string;
+  projectUrl?: string;
   selectedCategories: string[];
+  includeAnalysis?: boolean;
 }) {
   const doc = new jsPDF();
   const categoryColors = [
@@ -352,36 +354,101 @@ export function exportChecklistsPDF({ projectName, description, selectedCategori
     [142, 68, 173],   // Design - roxo
   ];
 
-  let y = 20;
-  doc.setFontSize(22);
+  let y = 22;
+  // Título grande, estilizado
+  doc.setFontSize(26);
+  doc.setFont("helvetica", "bold");
   doc.setTextColor(30, 30, 30);
-  doc.text(projectName || "Checklists VerificaAAA", 105, y, { align: "center" });
-  y += 10;
-  doc.setFontSize(12);
-  doc.setTextColor(100, 100, 100);
-  doc.text(description || "Checklist prático para promover acessibilidade digital", 105, y, { align: "center" });
-  y += 10;
+  const titleMain = "Checklists Verifica ";
+  const titleAAA = "AAA";
+  doc.text(titleMain, 15, y, { align: "left" });
+  const titleMainWidth = doc.getTextWidth(titleMain);
+  doc.setFont("helvetica", "italic");
+  doc.setTextColor(120, 120, 120);
+  doc.text(titleAAA, 15 + titleMainWidth, y, { align: "left" });
+  y += 6;
+  // Linha horizontal discreta
+  doc.setDrawColor(220, 220, 220);
+  doc.setLineWidth(0.7);
+  doc.line(15, y, 195, y);
+  y += 8;
 
+  // Cabeçalho do projeto em bloco destacado
+  const headerStartY = y;
+  doc.setFontSize(12);
+  doc.setTextColor(30, 30, 30);
+  const headerLabelX = 20;
+  const headerValueX = 20 + doc.getTextWidth("Descrição: ") + 2;
+  const headerMaxWidth = 170 - (headerValueX - headerLabelX);
+  let headerTextY = headerStartY + 11;
+  // Calcular linhas para cada campo
+  const headerFields: {label: string, value: string, lines: string[]}[] = [];
+  if (projectName) {
+    const lines = doc.splitTextToSize(projectName, headerMaxWidth);
+    headerFields.push({ label: "Projeto:", value: projectName, lines });
+  }
+  if (description) {
+    const lines = doc.splitTextToSize(description, headerMaxWidth);
+    headerFields.push({ label: "Descrição:", value: description, lines });
+  }
+  if (projectUrl) {
+    const lines = doc.splitTextToSize(projectUrl, headerMaxWidth);
+    headerFields.push({ label: "URL do projeto:", value: projectUrl, lines });
+  }
+  const now = new Date();
+  const dataStr = now.toLocaleDateString();
+  const dataLines = doc.splitTextToSize(dataStr, headerMaxWidth);
+  headerFields.push({ label: "Data:", value: dataStr, lines: dataLines });
+
+  // Calcular altura total do cabeçalho
+  let headerTotalLines = 0;
+  headerFields.forEach(f => { headerTotalLines += f.lines.length; });
+  const headerHeight = headerFields.length * 2 + headerTotalLines * 6 + 7;
+  doc.setFillColor(245, 245, 245);
+  doc.roundedRect(15, headerStartY, 180, headerHeight, 3, 3, 'F');
+
+  // Desenhar campos
+  let headerLineY = headerTextY;
+  headerFields.forEach(f => {
+    doc.setFont("helvetica", "bold");
+    doc.text(f.label, headerLabelX, headerLineY);
+    doc.setFont("helvetica", "normal");
+    f.lines.forEach((line: string, i: number) => {
+      const y = headerLineY + (i === 0 ? 0 : i * 6);
+      doc.text(line, headerValueX, y);
+    });
+    headerLineY += f.lines.length * 6 + 2;
+  });
+  y = headerStartY + headerHeight + 8;
+
+  // Separador visual
+  doc.setDrawColor(220, 220, 220);
+  doc.setLineWidth(0.5);
+  doc.line(15, y, 195, y);
+  y += 6;
+
+  // Conteúdo dos checklists
   checklists.filter(cat => selectedCategories.includes(cat.categoria)).forEach((cat, idx) => {
+    // Categoria
     y += 10;
-    const color = categoryColors[idx % categoryColors.length] as [number, number, number];
-    doc.setFontSize(18);
-    doc.setTextColor(...color);
+    // Remover cor, usar preto
+    doc.setFontSize(16);
+    doc.setTextColor(30, 30, 30);
     doc.setFont("helvetica", "bold");
     doc.text(cat.categoria, 15, y);
-    y += 10;
+    y += 7;
     let currentSubtopic = "";
     let firstSubtopic = true;
     let lastWasChecklist = false;
     cat.itens.forEach((item, idx) => {
       if (typeof item === "string" && /^\n--- (.*) ---$/.test(item)) {
-        if (!firstSubtopic && lastWasChecklist) y += 7;
+        if (!firstSubtopic && lastWasChecklist) y += 5;
         firstSubtopic = false;
         currentSubtopic = (item as string).replace(/^\n--- (.*) ---$/, "$1");
-        doc.setFontSize(13);
-        doc.setTextColor(...color);
+        doc.setFontSize(12);
+        doc.setTextColor(30, 30, 30);
         doc.setFont("helvetica", "bold");
-        doc.text(currentSubtopic, 20, y);
+        doc.text(currentSubtopic, 22, y);
         lastWasChecklist = false;
       } else if (typeof item === "object" && item.id && item.text) {
         let checked = false;
@@ -390,17 +457,35 @@ export function exportChecklistsPDF({ projectName, description, selectedCategori
         } catch {}
         const status = checked ? "[x]" : "[ ]";
         doc.setFontSize(11);
-        doc.setTextColor(40, 40, 40);
+        // Cor verde para marcados, cinza escuro para não marcados
+        if (checked) {
+          doc.setTextColor(39, 174, 96);
+        } else {
+          doc.setTextColor(40, 40, 40);
+        }
         doc.setFont("helvetica", checked ? "bold" : "normal");
-        y += 7;
-        const maxWidth = 170;
+        y += 6;
+        const maxWidth = 160;
         const lines = doc.splitTextToSize(`${status} ${item.text}`, maxWidth);
         doc.text(lines, 28, y);
-        y += 3.5 * (lines.length - 1);
-        y += 3.5;
-        if (y > 270) {
+        y += 4.5 * (lines.length - 1);
+        y += 2;
+        if (y > 265) {
+          // Rodapé institucional em todas as páginas
+          const footerTextRodape =
+            "Este arquivo foi criado na plataforma VerificaAAA (https://unbihc2025-1.github.io/IHC-2025.1-Grupo05/), um projeto da Universidade de Brasília (UnB) desenvolvido por alunos de Engenharia de Software na disciplina de Interação Humano-Computador, com o intuito de aumentar a acessibilidade em projetos digitais.";
+          doc.setFontSize(9);
+          doc.setTextColor(120, 120, 120);
+          const footerLinesRodape = doc.splitTextToSize(footerTextRodape, 170);
+          doc.text(footerLinesRodape, 105, 285, { align: "center" });
+          doc.setTextColor(30, 30, 30);
+          // Rodapé com número da página
+          const pageNum = doc.getNumberOfPages();
+          doc.setFontSize(9);
+          doc.setTextColor(180, 180, 180);
+          doc.text(`Página ${pageNum}`, 195, 290, { align: "right" });
           doc.addPage();
-          y = 20;
+          y = 22;
         }
         lastWasChecklist = true;
         const nextItem = cat.itens[idx + 1];
@@ -408,13 +493,203 @@ export function exportChecklistsPDF({ projectName, description, selectedCategori
           typeof nextItem === "string" && /^\n--- (.*) ---$/.test(nextItem)
           || idx === cat.itens.length - 1
         ) {
-          y += 8;
+          y += 6;
         }
       }
     });
+    // Separador entre categorias
+    y += 4;
+    doc.setDrawColor(230, 230, 230);
+    doc.setLineWidth(0.3);
+    doc.line(15, y, 195, y);
+    y += 2;
   });
 
-  doc.save((projectName ? projectName.replace(/\s+/g, "-") : "checklists-verificaAAA") + ".pdf");
+  // Rodapé institucional e número da página em todas as páginas
+  const totalPages = doc.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    // Rodapé institucional
+    const footerTextRodape =
+      "Este arquivo foi criado na plataforma VerificaAAA (https://unbihc2025-1.github.io/IHC-2025.1-Grupo05/), um projeto da Universidade de Brasília (UnB) desenvolvido por alunos de Engenharia de Software na disciplina de Interação Humano-Computador, com o intuito de aumentar a acessibilidade em projetos digitais.";
+    doc.setFontSize(9);
+    doc.setTextColor(120, 120, 120);
+    const footerLinesRodape = doc.splitTextToSize(footerTextRodape, 170);
+    doc.text(footerLinesRodape, 105, 285, { align: "center" });
+    // Número da página
+    doc.setTextColor(180, 180, 180);
+    doc.text(`Página ${i} de ${totalPages}`, 195, 290, { align: "right" });
+    doc.setTextColor(30, 30, 30);
+  }
+
+  // Se incluir análise de dados, adicionar ao final do PDF
+  if (includeAnalysis) {
+    y += 20;
+    doc.addPage();
+    y = 22;
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.setTextColor(30, 30, 30);
+    doc.text("Análise de Dados", 15, y);
+    y += 10;
+    doc.setFontSize(12);
+    doc.setFont("helvetica", "normal");
+    doc.setTextColor(30, 30, 30);
+
+    // 1. Resumo geral
+    let total = 0, checked = 0;
+    const allItems: { id: string, text: string, categoria: string, subtopico: string }[] = [];
+    checklists.forEach(cat => {
+      let currentSubtopic = "";
+      cat.itens.forEach(item => {
+        if (typeof item === "string" && /^\n--- (.*) ---$/.test(item)) {
+          currentSubtopic = (item as string).replace(/^\n--- (.*) ---$/, "$1");
+        } else if (typeof item === "object" && item.id && item.text) {
+          total++;
+          let isChecked = false;
+          try {
+            isChecked = localStorage.getItem(`checkbox-${item.id}`) === "true";
+          } catch {}
+          if (isChecked) checked++;
+          allItems.push({ id: item.id, text: item.text, categoria: cat.categoria, subtopico: currentSubtopic });
+        }
+      });
+    });
+    doc.setFontSize(13);
+    doc.setFont("helvetica", "bold");
+    doc.text(`Total de checklists marcados: ${checked} de ${total} (${((checked/total)*100).toFixed(1)}%)`, 15, y);
+    y += 10;
+    // Gráfico de pizza (marcado/não marcado)
+    const cx = 40, cy = y + 25, r = 20;
+    const angleChecked = (checked/total) * 2 * Math.PI;
+    // Fundo (não marcado)
+    doc.setDrawColor(200,200,200); doc.setFillColor(220,220,220);
+    doc.circle(cx, cy, r, 'F');
+    // Marcado
+    doc.setDrawColor(41,128,185); doc.setFillColor(41,128,185);
+    doc.moveTo(cx, cy);
+    doc.lineTo(cx + r, cy);
+    // Desenhar arco manualmente
+    const steps = 50;
+    for (let i = 0; i <= steps; i++) {
+      const theta = (i/steps) * angleChecked;
+      const x = cx + r * Math.cos(theta);
+      const yArc = cy + r * Math.sin(theta);
+      doc.lineTo(x, yArc);
+    }
+    doc.lineTo(cx, cy);
+    doc.fill();
+    doc.setFontSize(10);
+    doc.setTextColor(41,128,185);
+    doc.text('Marcado', cx + r + 10, cy - 5);
+    doc.setTextColor(120,120,120);
+    doc.text('Não marcado', cx + r + 10, cy + 7);
+    doc.setTextColor(30,30,30);
+    y = cy + r + 10;
+
+    // 2. Por área
+    doc.setFontSize(13);
+    doc.setFont("helvetica", "bold");
+    doc.text('Checklists marcados por área', 15, y);
+    y += 6;
+    const areaData: { area: string, total: number, checked: number }[] = [];
+    checklists.forEach(cat => {
+      let areaTotal = 0, areaChecked = 0;
+      cat.itens.forEach(item => {
+        if (typeof item === "object" && item.id && item.text) {
+          areaTotal++;
+          let isChecked = false;
+          try {
+            isChecked = localStorage.getItem(`checkbox-${item.id}`) === "true";
+          } catch {}
+          if (isChecked) areaChecked++;
+        }
+      });
+      areaData.push({ area: cat.categoria, total: areaTotal, checked: areaChecked });
+    });
+    // Tabela por área
+    autoTable(doc, {
+      startY: y,
+      head: [["Área", "Marcados", "Total", "%"]],
+      body: areaData.map(a => [a.area, a.checked, a.total, ((a.checked/a.total)*100).toFixed(1)+"%"]),
+      theme: 'grid',
+      styles: { fontSize: 10, cellPadding: 2 },
+      headStyles: { fillColor: [41,128,185] },
+      margin: { left: 15, right: 15 },
+      didParseCell: (data) => {
+        if (data.section === 'body' && data.column.index === 1 && Number(data.cell.raw) > 0) {
+          data.cell.styles.textColor = [39, 174, 96];
+        }
+      },
+    });
+    y = (doc as any).lastAutoTable.finalY + 8;
+    // Gráfico de barras por área
+    const barX = 30, barY = y, barW = 100, barH = 7;
+    areaData.forEach((a, i) => {
+      const percent = a.checked/a.total;
+      doc.setFillColor(41,128,185);
+      doc.rect(barX, barY + i*15, barW*percent, barH, 'F');
+      doc.setDrawColor(200,200,200);
+      doc.rect(barX, barY + i*15, barW, barH);
+      doc.setFontSize(10);
+      doc.setTextColor(30,30,30);
+      doc.text(a.area, barX + barW + 5, barY + i*15 + barH - 1);
+      doc.text(((percent*100).toFixed(1)+"%"), barX - 20, barY + i*15 + barH - 1);
+    });
+    y = barY + areaData.length*15 + 10;
+
+    // 3. Por sub-tópico
+    doc.setFontSize(13);
+    doc.setFont("helvetica", "bold");
+    doc.text('Checklists marcados por sub-tópico', 15, y);
+    y += 6;
+    // Para cada área, uma tabela de sub-tópicos
+    checklists.forEach(cat => {
+      const subData: { sub: string, total: number, checked: number }[] = [];
+      let currentSub = "";
+      cat.itens.forEach(item => {
+        if (typeof item === "string" && /^\n--- (.*) ---$/.test(item)) {
+          currentSub = (item as string).replace(/^\n--- (.*) ---$/, "$1");
+        } else if (typeof item === "object" && item.id && item.text) {
+          let found = subData.find(s => s.sub === currentSub);
+          if (!found) {
+            found = { sub: currentSub, total: 0, checked: 0 };
+            subData.push(found);
+          }
+          found.total++;
+          let isChecked = false;
+          try {
+            isChecked = localStorage.getItem(`checkbox-${item.id}`) === "true";
+          } catch {}
+          if (isChecked) found.checked++;
+        }
+      });
+      if (subData.length > 0) {
+        doc.setFontSize(11);
+        doc.setFont("helvetica", "bold");
+        doc.text(cat.categoria, 15, y);
+        y += 5;
+        autoTable(doc, {
+          startY: y,
+          head: [["Sub-tópico", "Marcados", "Total", "%"]],
+          body: subData.map(s => [s.sub, s.checked, s.total, ((s.checked/s.total)*100).toFixed(1)+"%"]),
+          theme: 'grid',
+          styles: { fontSize: 9, cellPadding: 1.5 },
+          headStyles: { fillColor: [41,128,185] },
+          margin: { left: 15, right: 15 },
+          columnStyles: { 0: { cellWidth: 40 } },
+          didParseCell: (data) => {
+            if (data.section === 'body' && data.column.index === 1 && Number(data.cell.raw) > 0) {
+              data.cell.styles.textColor = [39, 174, 96];
+            }
+          },
+        });
+        y = (doc as any).lastAutoTable.finalY + 8;
+      }
+    });
+  }
+
+  doc.save("checklists-verificaAAA.pdf");
 }
 
 export function exportChecklistsTXT({ projectName, description, selectedCategories }: {
@@ -422,10 +697,13 @@ export function exportChecklistsTXT({ projectName, description, selectedCategori
   description?: string;
   selectedCategories: string[];
 }) {
-  let txt = "";
-  if (projectName) txt += `Projeto: ${projectName}\n`;
-  if (description) txt += `Descrição: ${description}\n`;
-  if (projectName || description) txt += "\n";
+  let txt = "Checklists VerificaAAA\n\n";
+  const now = new Date();
+  const dataStr = now.toLocaleDateString();
+  if (projectName) txt += `PROJETO: ${projectName}\n`;
+  if (description) txt += `DESCRIÇÃO: ${description}\n`;
+  txt += `DATA: ${dataStr}\n`;
+  txt += "\n";
   checklists.filter(({ categoria }) => selectedCategories.includes(categoria)).forEach(({ categoria, itens }) => {
     txt += `Categoria: ${categoria}\n`;
     itens.forEach((item, idx) => {
@@ -437,7 +715,7 @@ export function exportChecklistsTXT({ projectName, description, selectedCategori
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = (projectName ? projectName.replace(/\s+/g, "-") : "checklists-verificaAAA") + ".txt";
+  a.download = "checklists-verificaAAA.txt";
   document.body.appendChild(a);
   a.click();
   document.body.removeChild(a);
