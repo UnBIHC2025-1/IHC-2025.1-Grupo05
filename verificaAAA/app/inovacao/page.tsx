@@ -61,127 +61,127 @@ export default function InovacaoPage() {
               <CardContent className="p-6">
                 <div className="space-y-3">
                   <div className="checklist-item">
-                    <Checkbox id="item1" className="checklist-checkbox" />
-                    <Label htmlFor="item1" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item1" className="checklist-checkbox" />
+                    <Label htmlFor="design-item1" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Adicionar instrução que não dependa exclusivamente da cor. <a href="#ref1" className="text-blue-600 hover:underline">[1]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item2" className="checklist-checkbox" />
-                    <Label htmlFor="item2" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item2" className="checklist-checkbox" />
+                    <Label htmlFor="design-item2" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Adicionar informação (como gráficos e diagramas) que não dependa exclusivamente da cor. <a href="#ref1" className="text-blue-600 hover:underline">[1]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item3" className="checklist-checkbox" />
-                    <Label htmlFor="item3" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item3" className="checklist-checkbox" />
+                    <Label htmlFor="design-item3" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Tamanho do texto ajustável para permitir ampliação. <a href="#ref2" className="text-blue-600 hover:underline">[2]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item4" className="checklist-checkbox" />
-                    <Label htmlFor="item4" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item4" className="checklist-checkbox" />
+                    <Label htmlFor="design-item4" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Descrever os controles pelo nome, não apenas pela aparência ou localização. <a href="#ref3" className="text-blue-600 hover:underline">[3]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item5" className="checklist-checkbox" />
-                    <Label htmlFor="item5" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item5" className="checklist-checkbox" />
+                    <Label htmlFor="design-item5" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Garantir que dicas visuais significativas atinjam 3:1 em relação ao fundo. <a href="#ref4" className="text-blue-600 hover:underline">[4]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item6" className="checklist-checkbox" />
-                    <Label htmlFor="item6" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item6" className="checklist-checkbox" />
+                    <Label htmlFor="design-item6" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Fazer com que as linhas de texto se ajustem ao viewport. <a href="#ref5" className="text-blue-600 hover:underline">[5]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item7" className="checklist-checkbox" />
-                    <Label htmlFor="item7" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item7" className="checklist-checkbox" />
+                    <Label htmlFor="design-item7" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Oferece uma opção de alto contraste (dark-mode) de suas páginas web e aumento de fontes.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item8" className="checklist-checkbox" />
-                    <Label htmlFor="item8" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item8" className="checklist-checkbox" />
+                    <Label htmlFor="design-item8" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Parágrafos com no máximo 80 caracteres por linha.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item9" className="checklist-checkbox" />
-                    <Label htmlFor="item9" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item9" className="checklist-checkbox" />
+                    <Label htmlFor="design-item9" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evita o uso de textos longos em caixa alta ou condensados.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item10" className="checklist-checkbox" />
-                    <Label htmlFor="item10" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item10" className="checklist-checkbox" />
+                    <Label htmlFor="design-item10" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evita o alinhamento justificado.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item11" className="checklist-checkbox" />
-                    <Label htmlFor="item11" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item11" className="checklist-checkbox" />
+                    <Label htmlFor="design-item11" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Fontes são fluidas e de fácil entendimento.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item12" className="checklist-checkbox" />
-                    <Label htmlFor="item12" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item12" className="checklist-checkbox" />
+                    <Label htmlFor="design-item12" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Toma o devido cuidado com display:none e visibility:hidden para os recursos de tecnologia assistiva.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item13" className="checklist-checkbox" />
-                    <Label htmlFor="item13" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item13" className="checklist-checkbox" />
+                    <Label htmlFor="design-item13" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Preferir botões com texto e ícone. E botões apenas com ícones tem o nome acessível.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item14" className="checklist-checkbox" />
-                    <Label htmlFor="item14" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item14" className="checklist-checkbox" />
+                    <Label htmlFor="design-item14" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Tipografia legível com fontes de fácil leitura.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item15" className="checklist-checkbox" />
-                    <Label htmlFor="item15" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item15" className="checklist-checkbox" />
+                    <Label htmlFor="design-item15" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Tipografia legível com fontes de tamanho adequado.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item16" className="checklist-checkbox" />
-                    <Label htmlFor="item16" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item16" className="checklist-checkbox" />
+                    <Label htmlFor="design-item16" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evita elementos visuais muito próximos, dificultando toque ou leitura.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item17" className="checklist-checkbox" />
-                    <Label htmlFor="item17" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item17" className="checklist-checkbox" />
+                    <Label htmlFor="design-item17" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evita dependencia de instruções posicionais, como "clique no botão à direita".
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item18" className="checklist-checkbox" />
-                    <Label htmlFor="item18" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item18" className="checklist-checkbox" />
+                    <Label htmlFor="design-item18" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evita textos animados, cintilantes ou movimentação constante.
                     </Label>
                   </div>
@@ -197,43 +197,43 @@ export default function InovacaoPage() {
               <CardContent className="p-6">
                 <div className="space-y-3">
                   <div className="checklist-item">
-                    <Checkbox id="item19" className="checklist-checkbox" />
-                    <Label htmlFor="item19" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item19" className="checklist-checkbox" />
+                    <Label htmlFor="design-item19" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evitar conteúdo que pisque, ou mantenha-o abaixo dos limites. <a href="#ref6" className="text-blue-600 hover:underline">[6]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item20" className="checklist-checkbox" />
-                    <Label htmlFor="item20" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item20" className="checklist-checkbox" />
+                    <Label htmlFor="design-item20" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Permitir que os usuários controlem as alterações de conteúdo que ocorrem em paralelo com outro conteúdo. <a href="#ref7" className="text-blue-600 hover:underline">[7]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item21" className="checklist-checkbox" />
-                    <Label htmlFor="item21" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item21" className="checklist-checkbox" />
+                    <Label htmlFor="design-item21" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Toda a animação deve obedecer à prefers-reduced-motion consulta de mídia. <a href="#ref8" className="text-blue-600 hover:underline">[8]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item22" className="checklist-checkbox" />
-                    <Label htmlFor="item22" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item22" className="checklist-checkbox" />
+                    <Label htmlFor="design-item22" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Toda animação possui descrição em áudio, para pessoas cegas.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item23" className="checklist-checkbox" />
-                    <Label htmlFor="item23" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item23" className="checklist-checkbox" />
+                    <Label htmlFor="design-item23" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evitar loops infinitos em vídeos ou gifs animados.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item24" className="checklist-checkbox" />
-                    <Label htmlFor="item24" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item24" className="checklist-checkbox" />
+                    <Label htmlFor="design-item24" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Evitar transições rápidas ou abruptas, que podem causar desconforto sensorial.
                     </Label>
                   </div>
@@ -249,71 +249,71 @@ export default function InovacaoPage() {
               <CardContent className="p-6">
                 <div className="space-y-3">
                   <div className="checklist-item">
-                    <Checkbox id="item25" className="checklist-checkbox" />
-                    <Label htmlFor="item25" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item25" className="checklist-checkbox" />
+                    <Label htmlFor="design-item25" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste de todo texto tamanho normal. <a href="#ref9" className="text-blue-600 hover:underline">[9]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item26" className="checklist-checkbox" />
-                    <Label htmlFor="item26" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item26" className="checklist-checkbox" />
+                    <Label htmlFor="design-item26" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste de todo texto tamanho grande. <a href="#ref9" className="text-blue-600 hover:underline">[9]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item27" className="checklist-checkbox" />
-                    <Label htmlFor="item27" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item27" className="checklist-checkbox" />
+                    <Label htmlFor="design-item27" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste de todos os ícones. <a href="#ref4" className="text-blue-600 hover:underline">[4]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item28" className="checklist-checkbox" />
-                    <Label htmlFor="item28" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item28" className="checklist-checkbox" />
+                    <Label htmlFor="design-item28" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste das bordas dos elementos de entrada (entrada de texto, botões de opção, caixas de seleção, etc.). <a href="#ref4" className="text-blue-600 hover:underline">[4]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item29" className="checklist-checkbox" />
-                    <Label htmlFor="item29" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item29" className="checklist-checkbox" />
+                    <Label htmlFor="design-item29" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar texto que se sobrepõe a imagens ou vídeos. <a href="#ref9" className="text-blue-600 hover:underline">[9]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item30" className="checklist-checkbox" />
-                    <Label htmlFor="item30" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item30" className="checklist-checkbox" />
+                    <Label htmlFor="design-item30" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar ::selection cores personalizadas. <a href="#ref9" className="text-blue-600 hover:underline">[9]</a>
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item31" className="checklist-checkbox" />
-                    <Label htmlFor="item31" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item31" className="checklist-checkbox" />
+                    <Label htmlFor="design-item31" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste de todo o texto de acordo com o fundo.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item32" className="checklist-checkbox" />
-                    <Label htmlFor="item32" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item32" className="checklist-checkbox" />
+                    <Label htmlFor="design-item32" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste de todo o texto sob uma imagem.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item33" className="checklist-checkbox" />
-                    <Label htmlFor="item33" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item33" className="checklist-checkbox" />
+                    <Label htmlFor="design-item33" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar uso exclusivo de cores não dependendo apenas de cores para transmitir informações.
                     </Label>
                   </div>
 
                   <div className="checklist-item">
-                    <Checkbox id="item34" className="checklist-checkbox" />
-                    <Label htmlFor="item34" className="text-[1.1rem] leading-[1.75] text-gray-700">
+                    <Checkbox id="design-item34" className="checklist-checkbox" />
+                    <Label htmlFor="design-item34" className="text-[1.1rem] leading-[1.75] text-gray-700">
                       Verificar o contraste do layout em conjunto.
                     </Label>
                   </div>

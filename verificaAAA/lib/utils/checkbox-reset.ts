@@ -12,8 +12,8 @@ export function resetPageCheckboxes() {
   // Prefixos de cada página (deve ser igual ao ProgressWidget)
   const CHECKBOX_PREFIXES: Record<string, string[]> = {
     objetivos: ['term', 'text', 'img', 'icon', 'video', 'auto', 'pod', 'link'],
-    equipe: ['item'],
-    inovacao: ['item'],
+    equipe: ['dw-item'],
+    inovacao: ['design-item'],
     metodologia: ['persona', 'cons', 'plan']
   }
   const pagePrefixes = CHECKBOX_PREFIXES[currentPath] || []

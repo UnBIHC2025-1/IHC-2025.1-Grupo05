@@ -24,8 +24,8 @@ const PAGE_NAMES = {
 // Checkbox ID prefixes for each page
 const CHECKBOX_PREFIXES = {
   objetivos: ['term', 'text', 'img', 'icon', 'video', 'auto', 'pod', 'link'],
-  equipe: ['item'],
-  inovacao: ['item'],
+  equipe: ['dw-item'],
+  inovacao: ['design-item'],
   metodologia: ['persona', 'cons', 'plan']
 }
 
